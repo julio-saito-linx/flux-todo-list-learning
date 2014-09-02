@@ -32,3 +32,99 @@ React.renderComponent(
 	Tools.
 */
 window.React = React;
+
+
+
+
+/**
+ * Mogger, for loggin
+ */
+
+var Mogger = require('mogger');
+
+
+
+
+
+var surrogateTargetsSource = [
+	{
+		title: 'TodoActions',
+		target: require('./actions/TodoActions').prototype
+	},
+	{
+		title: 'TodoConstants',
+		target: require('./constants/TodoConstants').prototype
+	},
+	{
+		title: 'AppDispatcher',
+		target: require('./dispatcher/AppDispatcher').prototype
+	},
+	{
+		title: 'Dispatcher',
+		target: require('./dispatcher/Dispatcher').prototype
+	},
+	{
+		title: 'TodoStore',
+		target: require('./stores/TodoStore').prototype
+	}
+];
+
+var tracer = new Mogger.Tracer({
+	//-------------------------------------------------------
+	// enable / disable
+	//-------------------------------------------------------
+	enabled: true,
+
+	//-------------------------------------------------------
+	// prints a pause when no logs are printed for some time
+	//-------------------------------------------------------
+	showPause: true,
+
+	//-------------------------------------------------------
+	// where is our sources objects?
+	// in our surrogateTargetsSource
+	//-------------------------------------------------------
+	surrogateTargets: surrogateTargetsSource,
+
+	//-------------------------------------------------------
+	// global config
+	//-------------------------------------------------------
+	before: {
+		//css: 'color: blue',
+		size: 15
+	},
+	targetConfig: {
+		//css: 'color: red',
+		size: 40
+	},
+	showArguments: true,
+
+	//-------------------------------------------------------
+	// interceptors
+	//-------------------------------------------------------
+	interceptors: [
+	{
+		filterRegex: /^(\$Dispatcher_invokeCallback)$/i,
+		callback: function(info) {
+			return info.method + '("' + info.args[0] + '")';
+		}
+	},
+	{
+		filterRegex: /^(dispatch)$/i,
+		callback: function(info) {
+			return info.method + '("' + info.args[0].action.actionType + ' - '+ info.args[0].action.id +'")';
+		}
+	},
+	]
+
+});
+
+// start watching some targets
+//-------------------------------------------------------
+surrogateTargetsSource.forEach(function(surrogateTarget) {
+	console.log('loggin:', surrogateTarget.title);
+	tracer.traceObj({
+		before: {	message: surrogateTarget.title, randomColor: true },
+		target: surrogateTarget.title, targetConfig: {	randomColor: true }
+	});
+});
