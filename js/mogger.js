@@ -12,7 +12,7 @@ var surrogateTargetsSource = [
 	//        will freeze your machine
 	{
 		title: 'TodoApp.react',
-		target: require('./components/TodoApp.react').prototype
+		target: require('./components/0.0-TodoApp.react').prototype
 	},
 	{
 		title: 'TodoActions',
@@ -161,4 +161,4 @@ logger.log({ message: '\nlog powered with:', css: 'color: #888'});
 logger.log('https://github.com/saitodisse/mogger');
 logger.log({ message: '------------------------------------\n', css: 'color: #888'});
 
-window.TodoApp = require('./components/TodoApp.react')
+window.TodoApp = require('./components/0.0-TodoApp.react')

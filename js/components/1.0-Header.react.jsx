@@ -11,7 +11,7 @@
 
 var React = require('react');
 var TodoActions = require('../actions/TodoActions');
-var TodoTextInput = require('./TodoTextInput.react');
+var TodoTextInput = require('./1.1-TodoTextInput.react');
 
 var Header = React.createClass({
 
@@ -23,10 +23,11 @@ var Header = React.createClass({
       <header id="header">
         <h1>todos</h1>
         <TodoTextInput
-          id="new-todo"
-          placeholder="What needs to be done?"
-          onSave={this._onSave}
+          id          = "new-todo"
+          placeholder = "What needs to be done?"
+          onSave      = { this._onSave }
         />
+        <button className="destroy" onClick={this._onDestroyClick} />
       </header>
     );
   },

@@ -14,9 +14,9 @@
  * the TodoStore and passes the new data to its children.
  */
 
-var Footer = require('./Footer.react');
-var Header = require('./Header.react');
-var MainSection = require('./MainSection.react');
+var Footer = require('./3.0-Footer.react');
+var Header = require('./1.0-Header.react');
+var MainSection = require('./2.0-MainSection.react');
 var React = require('react');
 var TodoStore = require('../stores/TodoStore');
 
@@ -57,10 +57,10 @@ var TodoApp = React.createClass({
       <div>
         <Header />
         <MainSection
-          allTodos={this.state.allTodos}
-          areAllComplete={this.state.areAllComplete}
+          allTodos       = { this.state.allTodos }
+          areAllComplete = { this.state.areAllComplete }
         />
-        <Footer allTodos={this.state.allTodos} />
+        <Footer allTodos = { this.state.allTodos } />
       </div>
   	);
   },

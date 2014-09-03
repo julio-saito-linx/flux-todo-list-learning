@@ -12,7 +12,7 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
-var TodoTextInput = require('./TodoTextInput.react');
+var TodoTextInput = require('./1.1-TodoTextInput.react');
 
 var cx = require('react/lib/cx');
 
@@ -38,9 +38,9 @@ var TodoItem = React.createClass({
     if (this.state.isEditing) {
       input =
         <TodoTextInput
-          className="edit"
-          onSave={this._onSave}
-          value={todo.text}
+          className = "edit"
+          onSave    = { this._onSave }
+          value     = { todo.text }
         />;
     }
 
