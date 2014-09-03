@@ -20,6 +20,11 @@ var MainSection = require('./MainSection.react');
 var React = require('react');
 var TodoStore = require('../stores/TodoStore');
 
+// FIXME: cant use mogger in react components, must be manual logging
+// var Mogger = require('mogger');
+// var tracer = new Mogger.Tracer();
+// var logger = tracer.logger;
+
 /**
  * Retrieve the current TODO data from the TodoStore
  */

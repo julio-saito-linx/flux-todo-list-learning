@@ -11,8 +11,8 @@ var surrogateTargetsSource = [
 	// DO NOT try to trace the react views
 	//        will freeze your machine
 	{
-		title: 'TodoItem.react',
-		target: require('./components/TodoItem.react')
+		title: 'TodoApp.react',
+		target: require('./components/TodoApp.react').prototype
 	},
 	{
 		title: 'TodoActions',
@@ -103,9 +103,9 @@ surrogateTargetsSource.forEach(function(surrogateTarget) {
 
 
 tracer.traceObj({
-	before: {	message: 'TodoItem.react', randomColor: true },
-	target: 'TodoItem.react', targetConfig: { randomColor: true },
-	pointcut: /render/
+	before: {	message: 'TodoApp.react', randomColor: true },
+	target: 'TodoApp.react', targetConfig: { randomColor: true }
+	// ,pointcut: /./
 });
 
 
@@ -161,3 +161,4 @@ logger.log({ message: '\nlog powered with:', css: 'color: #888'});
 logger.log('https://github.com/saitodisse/mogger');
 logger.log({ message: '------------------------------------\n', css: 'color: #888'});
 
+window.TodoApp = require('./components/TodoApp.react')

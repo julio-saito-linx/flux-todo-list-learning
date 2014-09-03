@@ -7,7 +7,9 @@
 ## Minhas anotações
 
 ###Dispatcher
-AppDispatcher "herda" do Dispatcher
+- AppDispatcher "herda" do Dispatcher
+- É o formato da mensagem
+- É opcional, porém recomendado que se crie "Dispatchers" customizados
 
 ```js
  /**
@@ -22,3 +24,13 @@ AppDispatcher "herda" do Dispatcher
     });
   }
 ```
+
+###Stores
+- Aqui é onde ficam os dados numa variável privada interna, protegida
+- Herda do EventListener
+- Tipo um AmpersandState, tipo um Model (TODO: tentar colocar um aqui!!)
+
+### Controller-View: TodoApp.react.js
+- É um componente react
+- fica acima da hierarquia
+- responsável por "perceber" as mudanças no store
