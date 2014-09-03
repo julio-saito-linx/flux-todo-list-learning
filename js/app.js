@@ -46,14 +46,23 @@ var Mogger = require('mogger');
 
 
 
+/**
+ * all source that we want to trace
+ */
 var surrogateTargetsSource = [
+	// DO NOT try to trace the react views
+	//        will freeze your machine
+	{
+		title: 'TodoItem.react',
+		target: require('./components/TodoItem.react').prototype
+	},
 	{
 		title: 'TodoActions',
-		target: require('./actions/TodoActions').prototype
+		target: require('./actions/TodoActions')
 	},
 	{
 		title: 'TodoConstants',
-		target: require('./constants/TodoConstants').prototype
+		target: require('./constants/TodoConstants')
 	},
 	{
 		title: 'AppDispatcher',
@@ -65,7 +74,7 @@ var surrogateTargetsSource = [
 	},
 	{
 		title: 'TodoStore',
-		target: require('./stores/TodoStore').prototype
+		target: require('./stores/TodoStore')
 	}
 ];
 
@@ -95,7 +104,7 @@ var tracer = new Mogger.Tracer({
 	},
 	targetConfig: {
 		//css: 'color: red',
-		size: 40
+		//size: 40
 	},
 	showArguments: true,
 
@@ -104,15 +113,17 @@ var tracer = new Mogger.Tracer({
 	//-------------------------------------------------------
 	interceptors: [
 	{
-		filterRegex: /^(\$Dispatcher_invokeCallback)$/i,
+		filterRegex: /^(\$Dispatcher_invokeCallback|create|emit|destroy)$/i,
 		callback: function(info) {
 			return info.method + '("' + info.args[0] + '")';
 		}
 	},
 	{
-		filterRegex: /^(dispatch)$/i,
+		filterRegex: /^(dispatch|toggleComplete)$/i,
 		callback: function(info) {
-			return info.method + '("' + info.args[0].action.actionType + ' - '+ info.args[0].action.id +'")';
+			//return info.method + '("' + info.args[0].action.actionType + ' - '+ info.args[0].action.id +'")';
+			var actionStringified = JSON.stringify(info.args[0], ' ', 2);
+			return actionStringified + '\n';
 		}
 	},
 	]
@@ -122,9 +133,18 @@ var tracer = new Mogger.Tracer({
 // start watching some targets
 //-------------------------------------------------------
 surrogateTargetsSource.forEach(function(surrogateTarget) {
-	console.log('loggin:', surrogateTarget.title);
+	if(surrogateTarget.title.indexOf('react') !== -1){
+		return false;
+	}
+	console.log('mogger::tracing:', surrogateTarget.title);
 	tracer.traceObj({
 		before: {	message: surrogateTarget.title, randomColor: true },
 		target: surrogateTarget.title, targetConfig: {	randomColor: true }
 	});
+});
+
+tracer.traceObj({
+	before: {	message: 'TodoItem.react', randomColor: true },
+	target: 'TodoItem.react', targetConfig: { randomColor: true },
+	pointcut: /render/
 });
